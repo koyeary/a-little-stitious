@@ -1,4 +1,18 @@
 
+//Render date in "day name, month name + date number, year" format.
+var dateObj = new Date();
+var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+var day = weekdays[dateObj.getDay()];
+
+var months = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+
+var date = dateObj.getDate();
+var month = months[dateObj.getMonth()];
+var year = dateObj.getUTCFullYear();
+
+var today = day + ", " + month + " " + date + ", " + year;
+
+
 
 
   // This function handles the search-button click event
@@ -18,15 +32,22 @@ var searchOWM= function(city) {
         method: "GET"
       }).then(function(response) {
           // Transfer content to HTML
+          console.log(response);
         $(".city").html("<h1>" + response.name + " Weather Details</h1>");
+        $(".date").html("<h2>" + today + "</h2>");
         $(".wind").text("Wind Speed: " + response.wind.speed);
         $(".humidity").text("Humidity: " + response.main.humidity);
+       
+     //function to get lat and lon for the city
+     //api call using lat on lon to retrive uv index
+     //example "http://api.openweathermap.org/data/2.5/uvi?appid={appid}&lat={lat}&lon={lon}"   
+     //   $(".uv-index").text("UV Index: ") + response
+     
         
         // Convert the temp to fahrenheit
         var tempF = (response.main.temp - 273.15) * 1.80 + 32;
 
         // add temp content to html
-        $(".temp").text("Temperature (K) " + response.main.temp);
         $(".tempF").text("Temperature (F) " + tempF.toFixed(2));
 
         // Log the data in the console as well
