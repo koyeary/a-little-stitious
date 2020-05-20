@@ -88,8 +88,9 @@ $(document).ready(function () {
         });
     }
     //end of document
-});
 
+
+//function to render data to page
 function renderData(city) {
     $(".city").html("<h1>" + city + " Weather Details</h1>");
     var data = JSON.parse(localStorage.getItem(city));
@@ -105,37 +106,43 @@ function renderData(city) {
     $(".uv-index").text("UV Index: " + uvi);
     $(".weather").text("Conditions: " + weather.replace(/\"/g, ""));
 
+    
 
-   // var forecast = data.forecast;
-    //render current city
-    //loop through 0-4 i of forecast array and render that too
-}
+    var fiveDay = {
+      dayOne : data.forecast[0], 
+      dayTwo : data.forecast[1],
+      dayThree : data.forecast[2],
+      dayFour : data.forecast[3],
+      dayFive : data.forecast[4],
+    }
 
+    // var wf = "";
+      $.each(fiveDay, function(index, val) {
+        var forecast = fiveDay[index];
+        var weatherF = forecast.weather[0].description;
+        var windF = forecast.wind_speed;
+        var uviF = forecast.uvi;
+        var humidityF = forecast.humidity;
+        var tempF = (forecast.temp.max - 273.15) * 1.80 + 32;
+        var iconF = (forecast.weather[0].icon);
 
-            /*        $("section").append("<div id='forecast'>");
-                   $("#forecast").text("info: " + wind + ", " + humidity + ", " + tempF/* + ", " + lat + " & " + lon );
-                   console.log(weather.description);
-                   console.log(weather.icon); */
-            //render city and date
-            /*   $(".city").html("<h1>" + name + " Weather Details</h1>");
-              $(".date").html("<h2>" + today + "</h2>"); */
-            //render query response
-            /*         $(".wind").text("Wind Speed: " + wind);
-                    $(".humidity").text("Humidity: " + humidity);
-                    $(".tempF").text("Temperature (F) " + tempF.toFixed(2)); */
-            //BONUS: add celsius
-            /*    getUVIndex(); */
+        //console.log(index);
+        $(".forecast").append("<section class='" + index + "'>");
+        $("." + index).append("<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>");
+        $("." + index).append("<div id='" + index + "-temp'>");
+        $("." + index).append("<div id='" + index + "-weather'>");
+        $("." + index).append("<div id='" + index + "-wind'>");
+        $("." + index).append("<div id='" + index + "-uvi'>");
+        $("." + index).append("<div id='" + index + "-humidity'>");
 
-            //Then save it into the storage:
-            /*           var searchHistory = {
-                          city: {
-                              name,
-                              wind,
-                              humidity,
-                              lat,
-                              lon,
-                              tempF
-            /*               } 
-                      
-                      localStorage.setItem(name, JSON.stringify(searchHistory.city));*/
-            /* }); */
+        $("#" + index + "-temp").text("Temperature (F) " + tempF.toFixed(2));
+        $("#" + index + "-weather").text("Conditions: " + weatherF.replace(/\"/g, ""));
+        $("#" + index + "-wind").text("Wind Speed: " + windF);
+        $("#" + index + "-uvi").text("UV Index: " + uvi);
+        $("#" + index + "-humidity").text("Humidity: " + humidity);
+       
+      });
+      
+    } 
+  });
+
