@@ -3,42 +3,38 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="assets/CSS/app.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
     <link rel="stylesheet" href="assets/CSS/style.css">  
     <title>Weather Dashboard</title>
 </head>
 <body>
-    <div class="container">
+    <header>
         <h1>City Search</h1>
-        <div class="date"></div>
-  
+        <p class="date"></p>
+    </header>  
+    <article class="form">
         <form id="search-form">
           <label for="search-input">Find Your City</label>
           <input type="text" id="search-input" placeholder="City Name">
           <br>
           <input id="search-city" type="submit" value="Find Your City">
         </form>
-      </container>
-<main>  <section class="current">
+      </article>    
+      
+<main>  
+    <section class="current">
         <div class="city"></div>
+        <div class="icon"></div>
         <div class="temp"></div>
-        <div class="wind"></div>
-        <div class="humidity"></div>
-        <div class="uv-index"></div>
         <div class="weather"></div>
+        <div class="wind"></div>
+        <div class="uv-index"></div>
+        <div class="humidity"></div>
       </section>
-      <section class="forecast">
-       <!--  <div id="day-one"></div>
-        <div id="day-two"></div>
-        <div id="day-three"></div>
-        <div id="day-four"></div>
- -->
-       <!--  <div id="tempF"></div>
-        <div id="windF"></div>
-        <div id="humidityF"></div>
-        <div id="uv-indexF"></div>
-        <div id="weatherF"></div> -->
-      </section>
+
+      <section class="forecast grid-x grid-padding-x">
+
+    </section>
 </main>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>

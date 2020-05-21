@@ -1,7 +1,6 @@
 $(document).ready(function () {
     //on opening, load the most recent item in the search history
-
-
+    console.log(Object.keys(localStorage));   
     //Find and render the date and time
     var dateObj = new Date();
     var weekdays = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
@@ -14,20 +13,21 @@ $(document).ready(function () {
     var year = dateObj.getUTCFullYear();
 
     var today = day + ", " + month + " " + date + ", " + year;
-    $(".date").html("<h2>" + today + "</h2>"); 
+    $(".date").html("<h2>" + today + "</h2>");
 
     //BONUS: Find and render the local time for the search city
 
     // This function handles the search-button click event
     $("#search-city").on("click", function (event) {
-        event.preventDefault();
+        event.preventDefault(); 
         // This line grabs the input from the textbox
         var city = $("#search-input").val().trim();
         getID(city);
     });
 
+ 
     //Make a call to retrieve city ID
-    function getID (city) {
+    function getID(city) {
         var queryURL = "https://api.openweathermap.org/data/2.5/weather?q=" + city + "&appid=4081942e5f99ae6e3a9f08ab5e60f5ca";
 
         $.ajax({
@@ -36,7 +36,7 @@ $(document).ready(function () {
         }).then(function (response) {
             var lat = response.coord.lat;
             var lon = response.coord.lon;
-        //    console.log(lat + ", " + lon)
+            //    console.log(lat + ", " + lon)
             var coords = {
                 lat: lat,
                 lon: lon
@@ -55,7 +55,7 @@ $(document).ready(function () {
         var lon = coords.lon;
         var queryURL = "https://api.openweathermap.org/data/2.5/onecall?lat=" + lat + "&lon=" + lon + "&appid=4081942e5f99ae6e3a9f08ab5e60f5ca";
 
-         $.ajax({
+        $.ajax({
             url: queryURL,
             method: "GET"
         }).then(function (response) {
@@ -67,7 +67,7 @@ $(document).ready(function () {
             var uvi = current.uvi;
             var weather = current.weather[0].description;
             var icon = current.weather[0].icon;
-           
+
 
             var weatherData = {
                 humidity,
@@ -84,65 +84,61 @@ $(document).ready(function () {
             //save all data in local storage by city name
             localStorage.setItem(city, JSON.stringify(weatherData));
             //render the data to the browser
-            renderData(city);
+            $(".forecast").empty()
+            .then(renderData(city));
+  
         });
     }
-    //end of document
 
 
-//function to render data to page
-function renderData(city) {
-    $(".city").html("<h1>" + city + " Weather Details</h1>");
-    var data = JSON.parse(localStorage.getItem(city));
-    var humidity = data.humidity;
-    var icon = data.icon;
-    var temp = data.temp;
-    var uvi = data.uvi;
-    var weather = data.weather;
-    var wind = data.wind;
-    $(".wind").text("Wind Speed: " + wind);
-    $(".humidity").text("Humidity: " + humidity);
-    $(".temp").text("Temperature (F) " + temp.toFixed(2));
-    $(".uv-index").text("UV Index: " + uvi);
-    $(".weather").text("Conditions: " + weather.replace(/\"/g, ""));
 
-    
+    //function to render data to page
+    function renderData(city) {
+        $(".city").html("<h1>" + city + " Weather Details</h1>");
+        var data = JSON.parse(localStorage.getItem(city));
+        var humidity = data.humidity;
+        var icon = data.icon;
+        var temp = data.temp;
+        var uvi = data.uvi;
+        var weather = data.weather;
+        var wind = data.wind;
+        $(".wind").text("Wind Speed: " + wind);
+        $(".icon").html("<img src='https://openweathermap.org/img/w/" + icon + ".png'>");
+        $(".humidity").text("Humidity: " + humidity);
+        $(".temp").text("Temperature (F) " + temp.toFixed(2));
+        $(".uv-index").text("UV Index: " + uvi);
+        $(".weather").text("Conditions: " + weather.replace(/\"/g, ""));
 
-    var fiveDay = {
-      dayOne : data.forecast[0], 
-      dayTwo : data.forecast[1],
-      dayThree : data.forecast[2],
-      dayFour : data.forecast[3],
-      dayFive : data.forecast[4],
+        var fiveDay = {
+            dayOne: data.forecast[1],
+            dayTwo: data.forecast[2],
+            dayThree: data.forecast[3],
+            dayFour: data.forecast[4],
+            dayFive: data.forecast[5],
+        }
+
+
+        $.each(fiveDay, function (index) {
+            var forecast = fiveDay[index];
+            var humidityF = forecast.humidity;
+            var tempF = (forecast.temp.max - 273.15) * 1.80 + 32;
+            var iconF = (forecast.weather[0].icon);
+            var dt = forecast.dt;
+          
+            console.log(dt);
+           
+            $(".forecast").append("<p class='" + index + "'>");
+            $("." + index).html("<p><img src='https://openweathermap.org/img/w/" + iconF + ".png'></p>");
+            $("." + index).append("<p id='" + index + "-date'>");
+            $("." + index).append("<p id='" + index + "-temp'>");
+            $("." + index).append("<p id='" + index + "-humidity'>");
+
+       //     $("#" + index + "-date").text();
+            $("#" + index + "-temp").text("Temperature (F) " + tempF.toFixed(2));
+            $("#" + index + "-humidity").text("Humidity: " + humidityF);
+
+        });
+
     }
-
-    // var wf = "";
-      $.each(fiveDay, function(index, val) {
-        var forecast = fiveDay[index];
-        var weatherF = forecast.weather[0].description;
-        var windF = forecast.wind_speed;
-        var uviF = forecast.uvi;
-        var humidityF = forecast.humidity;
-        var tempF = (forecast.temp.max - 273.15) * 1.80 + 32;
-        var iconF = (forecast.weather[0].icon);
-
-        //console.log(index);
-        $(".forecast").append("<section class='" + index + "'>");
-        $("." + index).append("<img src='https://openweathermap.org/img/w/" + val.weather[0].icon + ".png'>");
-        $("." + index).append("<div id='" + index + "-temp'>");
-        $("." + index).append("<div id='" + index + "-weather'>");
-        $("." + index).append("<div id='" + index + "-wind'>");
-        $("." + index).append("<div id='" + index + "-uvi'>");
-        $("." + index).append("<div id='" + index + "-humidity'>");
-
-        $("#" + index + "-temp").text("Temperature (F) " + tempF.toFixed(2));
-        $("#" + index + "-weather").text("Conditions: " + weatherF.replace(/\"/g, ""));
-        $("#" + index + "-wind").text("Wind Speed: " + windF);
-        $("#" + index + "-uvi").text("UV Index: " + uvi);
-        $("#" + index + "-humidity").text("Humidity: " + humidity);
-       
-      });
-      
-    } 
-  });
+});
 
