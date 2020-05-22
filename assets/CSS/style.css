@@ -2,5 +2,16 @@
     display: none;
     width: 20px;
     height: 20px;
-    background-color: green;
+  }
+
+  .uv-index #favorable {
+      background-color: green;
+  }
+
+  .uv-index #moderate {
+      background-color: yellow;
+  }
+
+  .uv-index #severe {
+      background-color: red;
   }
