@@ -1,48 +1,80 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.2/css/bulma.min.css">
-    <link rel="stylesheet" href="assets/CSS/style.css">  
-    <title>Weather Dashboard</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Foundations CSS  -->
+  <link rel="stylesheet" href="assets/CSS/app.css">
+  <!-- Custom CSS -->
+  <link rel="stylesheet" href="assets/CSS/style.css">
+
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
+  <script src="assets/js/script.js"></script>
+
+  <title>Weather Dashboard</title>
 </head>
+
 <body>
-    <header>
-        <h1>City Search</h1>
-        <p class="date"></p>
-    </header>  
-    <article class="form">
-        <form id="search-form">
-          <label for="search-input">Find Your City</label>
-          <input type="text" id="search-input" placeholder="City Name">
-          <br>
-          <input id="search-city" type="submit" value="Find Your City">
-        </form>
-      </article>    
+  <!-- top bar -->
+  <div class="top-bar">
+    <div class="top-bar-left">
+      <h1>Weather Dashboard</h1>
+    </div>
+    <div class="top-bar-right">
+    </div>
+  </div>
+  <!-- container -->
+  <container>
+    <div class="grid-x grid-padding-x">
+      <!-- side bar -->
+      <div class="cell small-3 flex-container flex-dir-column callout">
+        <!-- searchbar -->
+      <div class="input-group flex-child-shrink">
+          <input class="input-group-field" type="text" id="search-input" onfocus="this.value=''" placeholder="Find your city">
+          <div class="input-group-button">
+            <input id="search-city" type="submit" class="button" value="&#x1F50D;">
+          </div>
+      </div> 
+          <div class="flex-child-auto expanded button-group flex-dir-column">
+            
+            <!-- search history buttons go here -->
+          </div>
+        </div>
       
-<main>  
-    <section class="current">
-        <div class="city"></div>
-        <div class="icon"></div>
-        <div class="temp"></div>
-        <div class="weather"></div>
-        <div class="wind"></div>
-        <div class="uv-index"></div>
-        <div class="humidity"></div>
-      </section>
 
-      <section class="forecast grid-x grid-padding-x">
+      <!-- main content -->
+      <div class="cell small-9">
+        <main>
+          <section>
+            
+            <div class="grid-x grid-padding-x">
+              <div class="city float-left"></div>
+              <div class="date float-right"></div>
+            </div>
 
-    </section>
+            <div class="grid-x grid-padding-x">
+              <div class="current">
+                <!-- Current weather conditions go here -->
+              </div>
+              <div class="uv-index">
+                <!-- UV Index Color goes here -->
+              </div>
+            </div>
+          </section>
 
-    <section class="search-history">
+          <section class="forecast grid-x grid-padding-x">
+            <!-- 5-Day Forecast goes here -->
+          </section>
         
-    </section>
-</main>
+        </main>
+      </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
-<script src="assets/js/script.js"></script>
+    </div>
+
+  </container>
+
 </body>
+
 </html>
