@@ -8,24 +8,20 @@ $(document).ready(function () {
 
 
     // Find and render the date and time
-   // var dateObj = new Date();
+    // var dateObj = new Date();
     var d = new Date();
     var today = d.toDateString();
-    $(".date").html("<h4>" + today + "</h4>");
 
-    // BONUS: Find and render the local time for the search city
-
+   
     //  This function handles the search-button click event
-    $("#search-city").on("click", function (event) {
+    $("button").on("click", function (event) {
         event.preventDefault();
         // Grab the input from the textbox
         var city = $("#search-input").val().trim();
+
         // Call the weather data for the selected city
         getCoords(city);
-        // wipe out previous search-history buttons and start fresh
-        $(".search-history").empty();
-        // get the latest from local storage
-        searchHistory();
+ 
     });
 
 
@@ -43,6 +39,7 @@ $(document).ready(function () {
                 lat: lat,
                 lon: lon
             };
+
             localStorage.setItem(city, JSON.stringify(coords));
             // use city ID to retrieve detailed information from the "one call" API
             oneCall(city);
@@ -62,8 +59,8 @@ $(document).ready(function () {
             method: "GET"
         }).then(function (response) {
             // remove existing forecast content from browser
-            $(".forecast").empty();
-            $("")
+            $(".forecast-tile").empty();
+
             var current = response.current;
             var forecast = response.daily;
             var wind = current.wind_speed;
@@ -91,9 +88,14 @@ $(document).ready(function () {
 
             //Clear any previous data
             $(".current").empty();
+            $("#sun").empty();
+            $("#sun").removeClass("fg-violet");
+            $("#sun").removeClass("fg-red");
+            $("#sun").removeClass("fg-yellow");
+            $("#sun").removeClass("fg-green");
             // Render the weather conditions of the most recent city search
             renderData(city);
-
+            // searchHistory();
         });
     }
 
@@ -113,17 +115,23 @@ $(document).ready(function () {
 
         //  Render weather data to browser
         $(".city").html("<h3>" + city + "</h3>"); // City Name
-        $(".current").html("<img src='https://openweathermap.org/img/w/" + icon + ".png'><p>" + temp.toFixed(2) + " &deg;F<br>" + weather.replace(/\"/g, "") + "<br> Humidity: " + humidity + "%<br>Wind Speed: " + wind + "<br>UV Index: " + uvi + "</p>"); // Weather Icon
+        $(".date").html("<h6>" + today + "</h6>"); // Date
+        $(".current").html("<img src='https://openweathermap.org/img/w/" + icon + ".png'><p>" + temp.toFixed(2) + " &deg;F<br>" + weather.replace(/\"/g, "") + "<br>humidity: " + humidity + "%<br>wind speed: " + wind);
+        $(".stats").html("UV Index: " + uvi); // UV INDEX
 
         // given the uv index for the search item, display a color that indicates uv-index conditions
         if (uvi > 8) {
-            $(".uv-index").css("background-color", "purple"); // very severe conditions
+            $("#sun").addClass("mif-sun4 mif-5x fg-violet");
+            $("#sun").append("<p style='font-size:16px; font-family:arial'>very severe</p>"); // very severe conditions
         } else if (uvi > 5) {
-            $(".uv-index").css("background-color", "red"); // severe conditions
+            $("#sun").addClass("mif-sun4 mif-5x fg-red");
+            $("#sun").append("<p style='font-size:16px; font-family:arial'>severe</p>"); // severe conditions
         } else if (uvi > 3) {
-            $(".uv-index").css("background-color", "yellow");  // moderate conditions
+            $("#sun").addClass("mif-sun4 mif-5x fg-yellow");
+            $("#sun").append("<p style='font-size:16px; font-family:arial'>moderate</p>"); // moderate conditions
         } else if (uvi < 3) {
-            $(".uv-index").css("background-color", "green"); // favorable conditions
+            $("#sun").addClass("mif-sun4 mif-5x fg-green");
+            $("#sun").append("<p style='font-size:16px; font-family:arial'>favorable</p>"); // favorable conditions
         }
 
         // "One Call's" default behavior is to retrieve the forecast of the following 7 days. 
@@ -142,13 +150,9 @@ $(document).ready(function () {
             var humidityF = forecast.humidity;
             var tempF = (forecast.temp.max - 273.15) * 1.80 + 32;
             var iconF = (forecast.weather[0].icon);
-            
-            var n = forecast.dt;
-
-            $(".forecast").append("<p class='" + index + "'>");
-            $("." + index).html("<p><img src='https://openweathermap.org/img/w/" + iconF + ".png'></p>");
-            $("." + index).append("<p id='" + index + "-temp'>");
-            $("#" + index + "-temp").html(tempF.toFixed(2) + " &deg;F<br>Humdity: " + humidityF + "%</p>");
+       
+            $("." + index).append("<img src='https://openweathermap.org/img/w/" + iconF + ".png'>");
+            $("." + index).append("<p>" + tempF.toFixed(2) + " &deg;F<br>" + humidityF + "% Humidity</p>");
 
         });
 
@@ -156,22 +160,22 @@ $(document).ready(function () {
 
     // Loop through 5 most recent items in local storage
     function searchHistory(storedCity) {
-        //reset button display to prevent doubling
-        $(".button-group").empty();
-       // var storedCity = history[i];
+        //reset side menu to prevent doubling
+        $("ul").empty();
+        // var storedCity = history[i];
         if (history.length >= 7) {
             // retrieve search history data
             for (let i = 0; i < 7; i++) {
                 var storedCity = history[i];
                 // make a button for each item 
                 selectHistory(storedCity);
-             } 
+            }
         } else if (history.length < 7) {
             // If there are less than seven items in local storage, only create buttons for existing items
             for (let i = 0; i < history.length; i++) {
                 var storedCity = history[i];
-               selectHistory(storedCity); 
-            } 
+                selectHistory(storedCity);
+            }
         } else if (history = []) {
             // If there is nothing in local storage, only display the search bar
             $("main").css("display", "none");
@@ -181,15 +185,18 @@ $(document).ready(function () {
 
     // Function to create buttons and click event for the stored city-searches. Buttons pull up current weather and forecast for that city when clicked.   
     function selectHistory(storedCity) {
-        // remove spaces from the storedCity string and create ID for buttons
+        console.log(storedCity);
+        //remove spaces from the storedCity string and create ID for buttons
         var searchID = storedCity.replace(/ /g, '');
-        // dynamically append html buttons
-        $(".button-group").append("<a class='button' id='" + searchID + "'>" + storedCity + "</a>");
+        //apply title casing to search items
+        var cityName = storedCity[0].toUpperCase() + storedCity.slice(1);
+        //dynamically append buttons
+        $(".search-history").append("<button id='" + searchID + "'>" + cityName + "</button>");
         $("#" + searchID).on('click', function (event) {
             event.preventDefault();
             getCoords(storedCity);
         });
     }
- 
-});
 
+
+});

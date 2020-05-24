@@ -1,27 +1,22 @@
-# a-little-stitious
-Unit 6 Weather API
+# Weather Dashboard
 
-User Story: 
+A jQuery weather dashboard using the Open Weather Map API. Using a search form, pull up the current weather conditions and the forecast for the next five days of any given city. Search  history appears on the left for easy navigation to previous searches.
 
-AS A traveler
-I WANT to see the weather outlook for multiple cities
-SO THAT I can plan a trip accordingly
+## Acceptance Criteria
 
-Acceptance Criteria:
+Using a search form, pull up the current and future weather conditions for a given city.
 
-GIVEN a weather dashboard with form inputs
-WHEN I search for a city
-THEN I am presented with current and future conditions for that city and that city is added to the search history
-WHEN I view current weather conditions for that city
-THEN I am presented with the city name, the date, an icon representation of weather conditions, the temperature, the humidity, the wind speed, and the UV index
-WHEN I view the UV index
-THEN I am presented with a color that indicates whether the conditions are favorable, moderate, or severe
-WHEN I view future weather conditions for that city
-THEN I am presented with a 5-day forecast that displays the date, an icon representation of weather conditions, the temperature, and the humidity
-WHEN I click on a city in the search history
-THEN I am again presented with current and future conditions for that city
-WHEN I open the weather dashboard
-THEN I am presented with the last searched city forecast
+Site displays that last searched city on load. 
 
-//First, create a form input that triggers an AJAX call to the weather API.
-//Print response to screen
+Using the search form, or clicking on any city in the search history, displays the current weather conditions and conditions for the next five days.
+
+UV Index is indicated both numerically and using a color-coded icon.
+
+
+## Issues
+
+Search history buttons appear only after page is manually refreshed, buttons still don't reload every time a new city is selected. 
+
+LocalStorage is unreliable for chronoligical storing. Cookies would be better.
+
+The date (dt) key in the Open Call object only represents time of day, so dates are not present on the forecast tiles.

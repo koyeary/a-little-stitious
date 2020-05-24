@@ -4,12 +4,14 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Foundations CSS  -->
-  <link rel="stylesheet" href="assets/CSS/app.css">
+  <!-- METRO_4 CSS  -->
+  <link rel="stylesheet" href="https://cdn.metroui.org.ua/v4/css/metro-all.min.css">
   <!-- Custom CSS -->
   <link rel="stylesheet" href="assets/CSS/style.css">
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <script src="https://cdn.metroui.org.ua/v4.3.2/js/metro.min.js"></script>
+  <!-- JSDelivr JS Cookie plug-in -->
   <script src="https://cdn.jsdelivr.net/npm/js-cookie@2/src/js.cookie.min.js"></script>
   <script src="assets/js/script.js"></script>
 
@@ -18,62 +20,94 @@
 
 <body>
   <!-- top bar -->
-  <div class="top-bar">
-    <div class="top-bar-left">
-      <h1>Weather Dashboard</h1>
-    </div>
-    <div class="top-bar-right">
-    </div>
-  </div>
+  <header>
+    <!-- put a nice bar here -->
+    <h1>Weather Dashboard</h1>
+  </header>
+
+
   <!-- container -->
-  <container>
-    <div class="grid-x grid-padding-x">
-      <!-- side bar -->
-      <div class="cell small-3 flex-container flex-dir-column callout">
-        <!-- searchbar -->
-      <div class="input-group flex-child-shrink">
-          <input class="input-group-field" type="text" id="search-input" onfocus="this.value=''" placeholder="Find your city">
-          <div class="input-group-button">
-            <input id="search-city" type="submit" class="button" value="&#x1F50D;">
-          </div>
-      </div> 
-          <div class="flex-child-auto expanded button-group flex-dir-column">
-            
-            <!-- search history buttons go here -->
-          </div>
-        </div>
-      
+  <div class="container">
 
-      <!-- main content -->
-      <div class="cell small-9">
-        <main>
-          <section>
-            
-            <div class="grid-x grid-padding-x">
-              <div class="city float-left"></div>
-              <div class="date float-right"></div>
-            </div>
+    <!-- side bar -->
+    <div class="row">
 
-            <div class="grid-x grid-padding-x">
-              <div class="current">
-                <!-- Current weather conditions go here -->
-              </div>
-              <div class="uv-index">
-                <!-- UV Index Color goes here -->
-              </div>
-            </div>
-          </section>
+      <div class="history-container">
 
-          <section class="forecast grid-x grid-padding-x">
-            <!-- 5-Day Forecast goes here -->
-          </section>
-        
-        </main>
+        <input type="text" id="search-input" data-role="input" data-prepend="Find your city: " data-search-button="true"
+          data-clear-button="false">
+
+        <ul class="v-menu search-history">
+
+          <!-- search history buttons go here -->
+
+        </ul>
       </div>
 
+      <!-- main content -->
+      <div class="cell">
+
+        <div class="row city">
+        <!--   <div class="cell city ">
+
+          </div> -->
+        </div>
+          <div class="row date">
+
+          </div>
+        
+        <div class="row">
+
+          <div class="cell current flex-justify-start pb-5">
+            <!-- Current weather conditions go here -->
+          </div>
+          <div class="cell flex-justify-middle pb-5">
+            <span id="sun"></span>
+            <div class="stats">
+            </div>
+          </div>
+          <div class="cell flex-justify-end">
+
+          </div>
+
+        </div>
+
+
+
+
+      </div>
+
+
+      <div class="row">
+        <div class="cell">
+          <p>Five-Day Forecast</p>
+          <div class="row forecast"> 
+            <div class="cell">
+              <div class="dayOne forecast-tile"></div>
+            </div>
+            <div class="cell">
+              <div class="dayTwo forecast-tile"></div>
+            </div>
+            <div class="cell">
+              <div class="dayThree forecast-tile"></div>
+            </div>
+            <div class="cell">
+              <div class="dayFour forecast-tile"></div>
+            </div>
+            <div class="cell">
+              <div class="dayFive forecast-tile"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
 
-  </container>
+
+
+  </div>
+  </div>
+
+
 
 </body>
 

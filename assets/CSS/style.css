@@ -1,11 +1,4 @@
 
-
-.uv-index {
-    width: 40px;
-    height: 40px;
-    border-radius: 5%
-  }
-
   input[type="text"]::placeholder {
       text-align: right;
   }
@@ -17,4 +10,42 @@
 
   button {
       min-width: 100%;
+  }
+
+  .forecast-tile {
+      padding: 10px;
+      min-height: 100%;
+      min-width: 125px;
+      border-radius: 5%;
+      background-color: #3399FF;
+      font-size: 14px;
+  }
+
+  .history-container {
+    float: left;
+    margin: 10px;
+    padding: 20px;
+    max-width: 300px;
+    border-color: darkgray;
+    border-width: 2px;
+    
+  }
+
+  .spacer {
+  
+      height: 50px;
+      width: 50px;
+  }
+
+  .container {
+    max-width: 1000px;
+  }
+
+  header {
+      margin-top: none;
+      padding-top: 10px;
+      padding-bottom: 10px;
+      padding-left: 250px;
+      background-color: #575D63;
+      color: #F7F8F9;
   }
